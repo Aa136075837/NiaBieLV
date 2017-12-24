@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <CheckBox
+            android:id="@+id/zhang_check"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:button="@drawable/check_box_selector" />
+
+        <TextView
+            android:id="@+id/zhang_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="张小龙"
+            android:textColor="#000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <CheckBox
+            android:id="@+id/cao_check"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:button="@drawable/check_box_selector" />
+
+        <TextView
+            android:id="@+id/cao_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="曹仪佳"
+            android:textColor="#000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <CheckBox
+            android:id="@+id/yue_check"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:button="@drawable/check_box_selector" />
+
+        <TextView
+            android:id="@+id/yue_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="杨月月"
+            android:textColor="#000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <CheckBox
+            android:id="@+id/mac_check"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:button="@drawable/check_box_selector" />
+
+        <TextView
+            android:id="@+id/mac_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="MacYang"
+            android:textColor="#000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <CheckBox
+            android:id="@+id/lv_check"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:button="@drawable/check_box_selector" />
+
+        <TextView
+            android:id="@+id/lv_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="nia驴"
+            android:textColor="#000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <CheckBox
+            android:id="@+id/dong_check"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:button="@drawable/check_box_selector" />
+
+        <TextView
+            android:id="@+id/dong_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="董茂茂"
+            android:textColor="#000" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/parts_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="选好了" />
+
+</LinearLayout>
