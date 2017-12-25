@@ -35,11 +35,12 @@ public class DatePopup extends PopupWindow {
         });
 
         this.setContentView(vg);
-        this.setHeight(DisplayUtil.dip2px(context, 500));
+        this.setHeight(DisplayUtil.dip2px(context, 300));
         this.setWidth(width);
         this.setFocusable(true);
         this.setAnimationStyle(R.style.popWindow_animation);
         this.setOutsideTouchable(true);
+        this.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         this.update();
     }
 

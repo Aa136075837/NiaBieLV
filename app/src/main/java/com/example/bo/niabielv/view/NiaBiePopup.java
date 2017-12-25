@@ -32,7 +32,7 @@ public class NiaBiePopup extends PopupWindow implements RecycleAdapter.RecycleIt
         adapter.setRecycleItemClickListener(this);
         recyclerView.setAdapter(adapter);
         this.setContentView(vg);
-        this.setHeight(DisplayUtil.dip2px(context, 300));
+        this.setHeight(DisplayUtil.dip2px(context, 320));
         this.setWidth(width);
         this.setFocusable(true);
         this.setAnimationStyle(R.style.popWindow_animation);
