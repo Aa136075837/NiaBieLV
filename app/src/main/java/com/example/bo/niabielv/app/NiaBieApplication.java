@@ -1,5 +1,6 @@
 package com.example.bo.niabielv.app;
 
+import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 
 /**
@@ -7,8 +8,14 @@ import android.support.multidex.MultiDexApplication;
  */
 
 public class NiaBieApplication extends MultiDexApplication {
+    private static NiaBieApplication mInstance;
     @Override
     public void onCreate() {
         super.onCreate();
+        mInstance = this;
+    }
+
+    public static Context getInstance() {
+        return mInstance;
     }
 }
