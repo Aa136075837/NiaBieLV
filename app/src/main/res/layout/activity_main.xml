@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background_gray"
     tools:context="com.example.bo.niabielv.activity.MainActivity">
 
     <RelativeLayout
@@ -17,27 +18,32 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="账本"
-            android:textColor="#000"
+            android:text="账\t本"
+            android:textColor="#fff"
             android:textSize="16sp" />
 
-        <TextView
+        <ImageView
             android:id="@+id/add_account"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_margin="8dp"
-            android:background="@color/colorPrimary"
             android:gravity="center"
             android:padding="5dp"
+            android:src="@drawable/add"
             android:text="添加"
             android:textColor="#fff" />
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/main_recycle"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/main_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp" />
+        android:layout_height="match_parent">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/main_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

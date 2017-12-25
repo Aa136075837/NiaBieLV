@@ -3,4 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="background_gray">#F2F3F6</color>
+
+    <color name="seek_bar_progress_end">#0283ff</color>
+    <color name="app_theme_color">#FF7700</color>
+    <color name="black">#000</color>
+    <color name="text_gray_color">#c9caca</color>
+    <color name="text_blue_color">#0389ff</color>
+    <color name="text_title_color">#3e3a39</color>
 </resources>
