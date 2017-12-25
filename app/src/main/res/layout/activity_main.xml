@@ -4,14 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/background_gray"
+    android:orientation="vertical"
     tools:context="com.example.bo.niabielv.activity.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@color/colorAccent">
+
+        <ImageView
+            android:id="@+id/main_account"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:src="@drawable/account" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,10 +40,40 @@
             android:layout_margin="8dp"
             android:gravity="center"
             android:padding="5dp"
-            android:src="@drawable/add"
-            android:text="添加"
-            android:textColor="#fff" />
+            android:src="@drawable/add" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/total_money_bg"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="本月花费总额："
+                android:textColor="#fff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="13546"
+                android:textColor="@color/app_theme_color"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+    </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/main_refresh"

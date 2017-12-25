@@ -34,6 +34,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mAdd = findViewById(R.id.add_account);
         mRecyclerView = findViewById(R.id.main_recycle);
         mRefreshLayout = findViewById(R.id.main_refresh);
+        findViewById(R.id.main_account).setOnClickListener(view -> {
+            Intent intent = new Intent(this, UserDetailsActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initEvent() {
@@ -51,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
         });
 
-        AccountAdapter adapter = new AccountAdapter( this, R.layout.item_account);
+        AccountAdapter adapter = new AccountAdapter(this, R.layout.item_account);
         mRecyclerView.setAdapter(adapter);
     }
 
