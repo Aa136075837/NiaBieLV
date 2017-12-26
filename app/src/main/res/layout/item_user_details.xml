@@ -14,7 +14,7 @@
         android:layout_toRightOf="@+id/item_left_view">
 
         <TextView
-            android:id="@+id/item_user_payer"
+            android:id="@+id/item_details_payer_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -24,7 +24,6 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/item_date"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -34,7 +33,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/item_out_money"
+            android:id="@+id/item_out_money_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -53,7 +52,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/item_in_money"
+            android:id="@+id/item_in_money_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

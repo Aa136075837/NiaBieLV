@@ -1,10 +1,15 @@
 package com.example.bo.niabielv.http.api;
 
+import com.example.bo.niabielv.bean.AccountBean;
+import com.example.bo.niabielv.bean.PartsDetailsBean;
+import com.example.bo.niabielv.bean.UploadBean;
+
+import java.util.List;
+
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
-import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Headers;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -26,9 +31,18 @@ public interface ApiService {
 //    Call<OptionInfo> test(@Body RequestBody body);
 
     /**
-     * 获取验证码
+     * 上传账单
      */
-//    @POST("/login/getVerifyCode")
-//    Observable<LoginInfo> getVerifyCode(@Body RequestBody body);
+    @POST("/WebAccount/UploadAccountServlet")
+    Observable<UploadBean> uploadAccount(@Body RequestBody body);
+
+    /**
+     * 刷新账单列表
+     */
+    @GET("/WebAccount/SearchServlet")
+    Observable<AccountBean> searchAccount();
+
+    @POST("/WebAccount/CalculaServlet")
+    Observable<List<PartsDetailsBean>> userDetails();
 
 }

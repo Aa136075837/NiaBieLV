@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.bo.niabielv.R;
-import com.example.bo.niabielv.constant.AppConstant;
+import com.example.bo.niabielv.bean.PartsDetailsBean;
+
+import java.util.List;
 
 /**
  * Created by bo on 2017/12/24.
@@ -25,12 +27,22 @@ public class UserDetailsAdapter extends RecyclerView.Adapter<UserDetailsAdapter.
 
     @Override
     public void onBindViewHolder(DetailsHolder holder, int position) {
-
+        PartsDetailsBean bean = data.get(position);
+        holder.mDetailsPayer.setText(bean.getName());
+        holder.mInMoney.setText((bean.getInMoney() - bean.getOutMoney()) + "元");
+        holder.mOutMoney.setText(bean.getOutMoney() + "元");
     }
 
     @Override
     public int getItemCount() {
-        return AppConstant.names.length;
+        return data == null ? 0 : data.size();
+    }
+
+    private List<PartsDetailsBean> data;
+
+    public void setData(List<PartsDetailsBean> value) {
+        data = value;
+        notifyDataSetChanged();
     }
 
     public interface RecycleItemClickListener {
@@ -43,8 +55,15 @@ public class UserDetailsAdapter extends RecyclerView.Adapter<UserDetailsAdapter.
 
     static class DetailsHolder extends RecyclerView.ViewHolder {
 
+        private final TextView mDetailsPayer;
+        private final TextView mInMoney;
+        private final TextView mOutMoney;
+
         public DetailsHolder(View itemView) {
             super(itemView);
+            mDetailsPayer = itemView.findViewById(R.id.item_details_payer_tv);
+            mInMoney = itemView.findViewById(R.id.item_in_money_tv);
+            mOutMoney = itemView.findViewById(R.id.item_out_money_tv);
 
         }
     }

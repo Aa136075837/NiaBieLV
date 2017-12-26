@@ -6,26 +6,38 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bo.niabielv.R;
+import com.example.bo.niabielv.bean.UploadBean;
+import com.example.bo.niabielv.http.Load;
 import com.example.bo.niabielv.view.DatePopup;
 import com.example.bo.niabielv.view.NiaBiePopup;
 import com.example.bo.niabielv.view.PartsPopup;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
 
 public class AddAccountActivity extends AppCompatActivity implements NiaBiePopup.NiaPopupClickListener, PartsPopup.PartsPopupClickListener, DatePopup.DatePopupClickListener {
 
-    private TextView mPayer;
-    private TextView mParts;
-    private EditText mAmount;
-    private TextView mDate;
+    private TextView mPayerTv;
+    private TextView mPartsTv;
+    private EditText mAmountTv;
+    private TextView mDateTv;
     private Button mFinish;
     private NiaBiePopup mPopup;
     private PartsPopup mPartsPopup;
@@ -41,51 +53,125 @@ public class AddAccountActivity extends AppCompatActivity implements NiaBiePopup
     }
 
     private void intView() {
-        mPayer = findViewById(R.id.account_payer);
-        mParts = findViewById(R.id.parts_user);
-        mAmount = findViewById(R.id.amount_et);
-        mDate = findViewById(R.id.date_tv);
+        mPayerTv = findViewById(R.id.account_payer);
+        mPartsTv = findViewById(R.id.parts_user);
+        mAmountTv = findViewById(R.id.amount_et);
+        mDateTv = findViewById(R.id.date_tv);
         mFinish = findViewById(R.id.add_btn);
         mRemakesEt = findViewById(R.id.remakes_et);
     }
 
     private void initEvent() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        mPayer.setOnClickListener(v -> {
+        mPayerTv.setOnClickListener(v -> {
             if (isSoftShowing()) {
-                imm.hideSoftInputFromWindow(mDate.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(mDateTv.getWindowToken(), 0);
                 return;
             }
             mPopup = new NiaBiePopup(this);
             mPopup.setNiaPopupClickListener(this);
-            mPopup.showAsDropDown(mPayer);
+            mPopup.showAsDropDown(mPayerTv);
         });
 
-        mParts.setOnClickListener(view -> {
+        mPartsTv.setOnClickListener(view -> {
             if (isSoftShowing()) {
-                imm.hideSoftInputFromWindow(mDate.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(mDateTv.getWindowToken(), 0);
                 return;
             }
             mPartsPopup = new PartsPopup(this);
             mPartsPopup.setPartsPopupClickListener(this);
-            mPartsPopup.showAsDropDown(mParts);
+            mPartsPopup.showAsDropDown(mPartsTv);
         });
 
-        mDate.setOnClickListener(view -> {
+        mDateTv.setOnClickListener(view -> {
             if (isSoftShowing()) {
-                imm.hideSoftInputFromWindow(mDate.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(mDateTv.getWindowToken(), 0);
                 return;
             }
             mDatePopup = new DatePopup(this);
             mDatePopup.setDatePopupClickListener(this);
 
-            mDatePopup.showAsDropDown(mDate);
+            mDatePopup.showAsDropDown(mDateTv);
         });
 
         mFinish.setOnClickListener(view -> {
-
-
+            addAccount();
         });
+    }
+
+    private LinkedHashMap<String, Object> initUploadParams() {
+        String payer = mPayerTv.getText().toString().trim();
+        String parts = mPartsTv.getText().toString().trim();
+        String amount = mAmountTv.getText().toString().trim();
+        String date = mDateTv.getText().toString().trim();
+        String remake = mRemakesEt.getText().toString().trim();
+        if (TextUtils.isEmpty(payer) ||
+                TextUtils.isEmpty(parts) ||
+                TextUtils.isEmpty(amount) ||
+                TextUtils.isEmpty(date) ||
+                TextUtils.isEmpty(remake)) {
+            Toast.makeText(this, "参数不能为空", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+        map.put("money_person", payer);
+        map.put("actor", parts);
+        map.put("money", amount);
+        map.put("date_time", date);
+        map.put("content", remake);
+        return map;
+    }
+
+    private void addAccount() {
+        String payer = mPayerTv.getText().toString().trim();
+        String parts = mPartsTv.getText().toString().trim();
+        String amount = mAmountTv.getText().toString().trim();
+        String date = mDateTv.getText().toString().trim();
+        String remake = mRemakesEt.getText().toString().trim();
+        if (TextUtils.isEmpty(payer) ||
+                TextUtils.isEmpty(parts) ||
+                TextUtils.isEmpty(amount) ||
+                TextUtils.isEmpty(date) ||
+                TextUtils.isEmpty(remake)) {
+            Toast.makeText(this, "参数不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        RequestBody body = new FormBody.Builder()
+                .add("money_person", payer)
+                .add("actor", parts)
+                .add("money", amount)
+                .add("date_time", date)
+                .add("content", remake).build();
+
+
+        Load.createApi().uploadAccount(body).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<UploadBean>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(UploadBean value) {
+                if (value.isResult()) {
+                    uploadSuccess();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
+
+    private void uploadSuccess() {
+        finish();
     }
 
     private boolean isSoftShowing() {
@@ -95,7 +181,7 @@ public class AddAccountActivity extends AppCompatActivity implements NiaBiePopup
         Rect rect = new Rect();
         getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
 
-        return screenHeight - rect.bottom - getSoftButtonsBarHeight()!= 0;
+        return screenHeight - rect.bottom - getSoftButtonsBarHeight() != 0;
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -116,7 +202,7 @@ public class AddAccountActivity extends AppCompatActivity implements NiaBiePopup
 
     @Override
     public void syncName(String name) {
-        mPayer.setText(name);
+        mPayerTv.setText(name);
         if (mPopup != null) {
             mPopup.dismiss();
         }
@@ -132,18 +218,18 @@ public class AddAccountActivity extends AppCompatActivity implements NiaBiePopup
 
     @Override
     public void syncName(List<String> names) {
-        mParts.setText("");
+        mPartsTv.setText("");
         for (int i = 0; i < names.size(); i++) {
             if (i == names.size() - 1) {
-                mParts.append(names.get(i));
+                mPartsTv.append(names.get(i));
             } else {
-                mParts.append(names.get(i) + ",");
+                mPartsTv.append(names.get(i) + ",");
             }
         }
     }
 
     @Override
     public void date(String date) {
-        mDate.setText(date);
+        mDateTv.setText(date);
     }
 }

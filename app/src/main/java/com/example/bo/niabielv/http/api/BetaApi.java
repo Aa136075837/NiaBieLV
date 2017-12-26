@@ -2,7 +2,6 @@ package com.example.bo.niabielv.http.api;
 
 
 import com.example.bo.niabielv.BuildConfig;
-import com.example.bo.niabielv.app.NiaBieApplication;
 
 /**
  * @author chenzhaojun
@@ -24,7 +23,7 @@ public class BetaApi {
 
     public String getBetaUrl() {
         if (url == null) {
-//            url = SpCache.init(NiaBieApplication.getInstance()).getString(KEY_BETA_URL, BuildConfig.API_URL);
+            url = BuildConfig.API_URL;
         }
         return url;
     }

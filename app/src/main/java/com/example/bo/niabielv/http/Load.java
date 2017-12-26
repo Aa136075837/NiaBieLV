@@ -9,8 +9,8 @@ import com.example.bo.niabielv.http.api.ApiService;
 import com.example.bo.niabielv.http.api.BetaApi;
 import com.example.bo.niabielv.utils.L;
 import com.google.gson.GsonBuilder;
+
 import java.io.IOException;
-import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.concurrent.TimeUnit;
 
@@ -20,10 +20,6 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -31,7 +27,6 @@ import okio.Buffer;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * @author zsp
@@ -77,15 +72,15 @@ public class Load {
 
     private static void createRetrofit() {
         OkHttpClient.Builder client = new OkHttpClient.Builder().connectTimeout(AppConstant.CONFIG_NETWORK_TIME_OUT, TimeUnit.SECONDS)
-            .readTimeout(AppConstant.CONFIG_NETWORK_TIME_OUT, TimeUnit.SECONDS)
-            .sslSocketFactory(createSSLSocketFactory(),new TrustAllCerts()).hostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
+                .readTimeout(AppConstant.CONFIG_NETWORK_TIME_OUT, TimeUnit.SECONDS)
+                .sslSocketFactory(createSSLSocketFactory(), new TrustAllCerts()).hostnameVerifier(new HostnameVerifier() {
+                    @Override
+                    public boolean verify(String hostname, SSLSession session) {
+                        return true;
+                    }
+                });
         client.addInterceptor(new HttpLoggingInterceptor(message -> L.e("https:" + message)).setLevel(HttpLoggingInterceptor.Level.BODY))
-            .build();
+                .build();
         Retrofit.Builder retrofit = getBuilder();
         sBuilder = retrofit;
         retrofit.client(client.build());
@@ -95,9 +90,9 @@ public class Load {
     @NonNull
     private static Retrofit.Builder getBuilder() {
         return new Retrofit.Builder()
-            .baseUrl(getLoadHead())
-            .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+                .baseUrl(BuildConfig.API_URL)
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
     }
 
     public static Retrofit.Builder getRetrofit() {
@@ -121,8 +116,6 @@ public class Load {
         retrofit.client(client);
         return retrofit.build().create(ApiService.class);
     }*/
-
-
     private static String bodyToString(final Request request) {
         try {
             final Request copy = request.newBuilder().build();
@@ -156,8 +149,8 @@ public class Load {
 
 
         *//**
-         * 这里的fromNetwork 不需要指定Schedule,在handleRequest中已经变换了
-         *//*
+     * 这里的fromNetwork 不需要指定Schedule,在handleRequest中已经变换了
+     *//*
         fromNetwork = fromNetwork.map(result -> {
             CacheManager.saveObject((Serializable) result, cacheKey);
             return result;
@@ -181,9 +174,11 @@ public class Load {
             isLoadCache = true;
         }
 
-        *//**
-         * 这里的fromNetwork 不需要指定Schedule,在handleRequest中已经变换了
-         *//*
+        */
+
+    /**
+     * 这里的fromNetwork 不需要指定Schedule,在handleRequest中已经变换了
+     *//*
         fromNetwork = fromNetwork.map(result -> {
             CacheManager.saveObject((Serializable) result, cacheKey);
             return result;
@@ -203,7 +198,6 @@ public class Load {
             return Observable.concat(fromCache, fromNetwork).take(1);
         }
     }*/
-
     public static String getLoadUrl() {
         if (BuildConfig.DEBUG) {
             return BetaApi.getInstance().getBetaUrl();

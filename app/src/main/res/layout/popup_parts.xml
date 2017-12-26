@@ -107,7 +107,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:padding="5dp"
-            android:text="nia驴"
+            android:text="Nia驴"
             android:textColor="#000" />
     </LinearLayout>
 

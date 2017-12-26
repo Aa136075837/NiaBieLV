@@ -27,6 +27,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="XXX"
+            android:textSize="16sp"
             android:textColor="@color/black" />
 
         <TextView
@@ -36,7 +37,8 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="2017-12-25"
-            android:textColor="@color/text_title_color" />
+            android:textSize="16sp"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/item_money"
@@ -45,6 +47,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="35.23"
+            android:textSize="16sp"
             android:textColor="@color/text_blue_color" />
     </LinearLayout>
 
@@ -56,8 +59,8 @@
         android:layout_marginLeft="10dp"
         android:gravity="center_vertical"
         android:text="XXX,XXX,XXX,XXX,XXX"
-        android:textColor="@color/text_gray_color"
-        android:textSize="14sp" />
+        android:textColor="@color/text_title_color"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/item_remakes"
@@ -67,6 +70,6 @@
         android:layout_marginLeft="10dp"
         android:gravity="center_vertical"
         android:text="XXXXXXXXXX "
-        android:textColor="@color/text_gray_color"
-        android:textSize="14sp" />
+        android:textColor="@color/text_title_color"
+        android:textSize="16sp" />
 </RelativeLayout>

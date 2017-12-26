@@ -7,9 +7,12 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.example.bo.niabielv.R;
 import com.example.bo.niabielv.utils.DisplayUtil;
+
+import java.util.Date;
 
 /**
  * Created by bo on 2017/12/24.
@@ -19,6 +22,10 @@ public class DatePopup extends PopupWindow {
     private final DatePicker mDp;
     private final Button mDateBtn;
 
+    private int mYear;
+    private int mMonth;
+    private int mDate1;
+
     public DatePopup(Context context) {
         WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         int width = manager.getDefaultDisplay().getWidth();
@@ -26,10 +33,19 @@ public class DatePopup extends PopupWindow {
         vg = (ViewGroup) inflater.inflate(R.layout.popup_date, null);
 
         mDp = vg.findViewById(R.id.date_picker);
+        mDp.setMaxDate(System.currentTimeMillis());
         mDateBtn = vg.findViewById(R.id.date_btn);
         mDateBtn.setOnClickListener(view -> {
             if (mListener != null) {
-                mListener.date(mDp.getYear() + "-" + mDp.getMonth() + "-" + mDp.getDayOfMonth());
+                Date date = new Date();
+                mYear = date.getYear() + 1900;
+                mMonth = date.getMonth() + 1;
+                mDate1 = date.getDate();
+
+                if (mDp.getYear() > mYear || mDp.getMonth() > mMonth || mDp.getDayOfMonth() > mDate1) {
+                    Toast.makeText(context, "不能选择未来的时间", Toast.LENGTH_SHORT).show();
+                }
+                mListener.date(mDp.getYear() + "-" + (mDp.getMonth()+1) + "-" + mDp.getDayOfMonth());
             }
             dismiss();
         });

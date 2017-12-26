@@ -16,13 +16,13 @@ android {
     buildTypes {
         release {
             //正式环境
-            buildConfigField "String", "API_URL", "\"http:///\""
+            buildConfigField "String", "API_URL", "\"http://192.168.0.101:8080/\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             //测试环境
-            buildConfigField "String", "API_URL", "\"http://192.168.5.252:8090/\""
+            buildConfigField "String", "API_URL", '"http://192.168.0.101:8080/"'
             debuggable true
         }
     }
