@@ -1,6 +1,7 @@
 package com.example.bo.niabielv.activity;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Build;
@@ -95,6 +96,7 @@ public class AddAccountActivity extends AppCompatActivity implements NiaBiePopup
         });
 
         mFinish.setOnClickListener(view -> {
+
             addAccount();
         });
     }
@@ -123,6 +125,7 @@ public class AddAccountActivity extends AppCompatActivity implements NiaBiePopup
     }
 
     private void addAccount() {
+
         String payer = mPayerTv.getText().toString().trim();
         String parts = mPartsTv.getText().toString().trim();
         String amount = mAmountTv.getText().toString().trim();
@@ -136,6 +139,8 @@ public class AddAccountActivity extends AppCompatActivity implements NiaBiePopup
             Toast.makeText(this, "参数不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
+        ProgressDialog progerssDialog = ProgressDialog.show(this, "", "正在添加...");
+        progerssDialog.setCanceledOnTouchOutside(true);
         RequestBody body = new FormBody.Builder()
                 .add("money_person", payer)
                 .add("actor", parts)
@@ -155,6 +160,7 @@ public class AddAccountActivity extends AppCompatActivity implements NiaBiePopup
             public void onNext(UploadBean value) {
                 if (value.isResult()) {
                     uploadSuccess();
+
                 }
             }
 
@@ -165,7 +171,7 @@ public class AddAccountActivity extends AppCompatActivity implements NiaBiePopup
 
             @Override
             public void onComplete() {
-
+                progerssDialog.dismiss();
             }
         });
     }

@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,17 +17,28 @@ import android.widget.Toast;
 import com.example.bo.niabielv.R;
 import com.example.bo.niabielv.adapter.AccountAdapter;
 import com.example.bo.niabielv.bean.AccountBean;
+import com.example.bo.niabielv.bean.UploadBean;
 import com.example.bo.niabielv.http.Load;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
+
+import java.text.DecimalFormat;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private ImageView mAdd;
-    private RecyclerView mRecyclerView;
+    private SwipeMenuRecyclerView mRecyclerView;
     private SwipeRefreshLayout mRefreshLayout;
     private AccountAdapter mAdapter;
     private TextView mTotalMoney;
@@ -66,8 +78,48 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         });
 
         mAdapter = new AccountAdapter(this, R.layout.item_account);
+        mRecyclerView.setSwipeMenuCreator(mSwipeMenuCreator);
+        mRecyclerView.setSwipeMenuItemClickListener(mMenuItemClickListener);
+
         mRecyclerView.setAdapter(mAdapter);
+//        mRecyclerView.setItemViewSwipeEnabled(true);
     }
+
+    private SwipeMenuCreator mSwipeMenuCreator = new SwipeMenuCreator() {
+        @Override
+        public void onCreateMenu(SwipeMenu swipeLeftMenu, SwipeMenu swipeRightMenu, int viewType) {
+            int width = getResources().getDimensionPixelSize(R.dimen.dp_70);
+
+            // 1. MATCH_PARENT 自适应高度，保持和Item一样高;
+            // 2. 指定具体的高，比如80;
+            // 3. WRAP_CONTENT，自身高度，不推荐;
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            SwipeMenuItem deleteItem = new SwipeMenuItem(MainActivity.this);
+            deleteItem.setBackground(R.drawable.selector_red)
+                    .setImage(R.drawable.ic_action_delete)
+                    .setWidth(width)
+                    .setHeight(height);
+            swipeRightMenu.addMenuItem(deleteItem);
+        }
+    };
+
+    private SwipeMenuItemClickListener mMenuItemClickListener = new SwipeMenuItemClickListener() {
+        @Override
+        public void onItemClick(SwipeMenuBridge menuBridge) {
+            menuBridge.closeMenu();
+
+            int direction = menuBridge.getDirection(); // 左侧还是右侧菜单。
+            int adapterPosition = menuBridge.getAdapterPosition(); // RecyclerView的Item的position。
+            int menuPosition = menuBridge.getPosition(); // 菜单在RecyclerView的Item中的Position。
+
+            if (direction == SwipeMenuRecyclerView.RIGHT_DIRECTION) {
+                String deleteItemId = mAdapter.getDeleteItemId(adapterPosition);
+                deleteItem(deleteItemId, adapterPosition);
+            } else if (direction == SwipeMenuRecyclerView.LEFT_DIRECTION) {
+                Toast.makeText(MainActivity.this, "list第" + adapterPosition + "; 左侧菜单第" + menuPosition, Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 
     private void toAddAccountActivity() {
         Intent intent = new Intent(this, AddAccountActivity.class);
@@ -86,6 +138,38 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         flashItem();
     }
 
+    private void deleteItem(String deleteItemId, int position) {
+        RequestBody body = new FormBody.Builder()
+                .add("_id", deleteItemId).build();
+
+        Load.createApi().deleteItem(body).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribeWith(new Observer<UploadBean>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(UploadBean value) {
+                if (value.isResult()) {
+                    mAdapter.deleteItem(position);
+                    flashItem();
+                    Toast.makeText(MainActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
+
     private void flashItem() {
         Load.createApi().searchAccount().subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<AccountBean>() {
@@ -97,7 +181,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             @Override
             public void onNext(AccountBean value) {
                 mAdapter.setData(value);
-                mTotalMoney.setText(value.getAllMoney() + "元");
+                DecimalFormat df = new DecimalFormat("#0.00");
+                mTotalMoney.setText(df.format(value.getAllMoney()) + "元");
                 mRefreshLayout.setRefreshing(false);
             }
 

@@ -70,6 +70,7 @@
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:text="13546"
+                android:tooltipText="13546"
                 android:textColor="@color/app_theme_color"
                 android:textSize="20sp" />
 
@@ -81,7 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+        <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
             android:id="@+id/main_recycle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

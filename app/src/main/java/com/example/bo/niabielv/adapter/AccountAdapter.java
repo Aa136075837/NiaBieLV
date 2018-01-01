@@ -20,6 +20,7 @@ import java.util.List;
 public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AuditHolder> {
     private Context mContext;
     private int mResId;
+    private List<AccountBean.ListBean> mList;
 
     public AccountAdapter(Context context, @LayoutRes int resId) {
         super();
@@ -41,8 +42,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AuditHol
         } else {
             holder.mLeftView.setBackground(mContext.getResources().getDrawable(R.drawable.backgroud_item_left_blue));
         }
-        List<AccountBean.ListBean> list = data.getList();
-        AccountBean.ListBean bean = list.get(position);
+        AccountBean.ListBean bean = mList.get(position);
         holder.mPayerTv.setText(bean.getMoney_person());
         holder.mPartsTv.setText(bean.getActor());
         holder.mDate.setText(bean.getDate_time());
@@ -59,6 +59,16 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AuditHol
 
     public void setData(AccountBean value) {
         data = value;
+        mList = data.getList();
+        notifyDataSetChanged();
+    }
+
+    public String getDeleteItemId(int position){
+        return mList.get(position).getId();
+    }
+
+    public void deleteItem(int position) {
+        mList.remove(position);
         notifyDataSetChanged();
     }
 

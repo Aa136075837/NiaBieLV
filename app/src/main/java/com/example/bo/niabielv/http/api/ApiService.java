@@ -45,4 +45,7 @@ public interface ApiService {
     @POST("/WebAccount/CalculaServlet")
     Observable<List<PartsDetailsBean>> userDetails();
 
+    @POST("/WebAccount/DeleteAccountServlet")
+    Observable<UploadBean> deleteItem(@Body RequestBody body);
+
 }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.bo.niabielv.R;
 import com.example.bo.niabielv.bean.PartsDetailsBean;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -29,8 +30,10 @@ public class UserDetailsAdapter extends RecyclerView.Adapter<UserDetailsAdapter.
     public void onBindViewHolder(DetailsHolder holder, int position) {
         PartsDetailsBean bean = data.get(position);
         holder.mDetailsPayer.setText(bean.getName());
-        holder.mInMoney.setText((bean.getInMoney() - bean.getOutMoney()) + "元");
-        holder.mOutMoney.setText(bean.getOutMoney() + "元");
+        DecimalFormat df = new DecimalFormat ("#0.00");
+
+        holder.mInMoney.setText(df.format((bean.getInMoney() - bean.getOutMoney())) + "元");
+        holder.mOutMoney.setText(df.format(bean.getOutMoney()) + "元");
     }
 
     @Override
