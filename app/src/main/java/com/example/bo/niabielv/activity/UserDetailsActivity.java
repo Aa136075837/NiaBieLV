@@ -1,7 +1,6 @@
 package com.example.bo.niabielv.activity;
 
 import android.graphics.Rect;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,27 +8,40 @@ import android.view.View;
 
 import com.example.bo.niabielv.R;
 import com.example.bo.niabielv.adapter.UserDetailsAdapter;
+import com.example.bo.niabielv.base.MVPBaseActivity;
 import com.example.bo.niabielv.bean.PartsDetailsBean;
-import com.example.bo.niabielv.http.Load;
+import com.example.bo.niabielv.presenter.AddAccountContract;
 
 import java.util.List;
 
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-
-public class UserDetailsActivity extends AppCompatActivity {
+public class UserDetailsActivity extends MVPBaseActivity<AddAccountContract.AddAccountPresenter> implements AddAccountContract.AddAccountView {
 
     private RecyclerView mRecyclerView;
     private UserDetailsAdapter mAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_details);
+    protected AddAccountContract.AddAccountPresenter createPresenter() {
+        return new AddAccountContract.AddAccountPresenter(this, this);
+    }
+
+    @Override
+    protected int initLayout() {
+        return R.layout.activity_user_details;
+    }
+
+    @Override
+    protected void initViews() {
         initView();
+    }
+
+    @Override
+    protected void initEvents() {
         initEvent();
+    }
+
+    @Override
+    protected void initParams(Bundle extras) {
+
     }
 
     private void initEvent() {
@@ -53,31 +65,14 @@ public class UserDetailsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        getUserDetails();
+        mPresenter.getUserDetails();
     }
 
-    private void getUserDetails(){
-        Load.createApi().userDetails().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<PartsDetailsBean>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
 
-            }
-
-            @Override
-            public void onNext(List<PartsDetailsBean> value) {
-                mAdapter.setData(value);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
+    @Override
+    public void getDetailsSuccess(List<PartsDetailsBean> value) {
+        if (mAdapter != null) {
+            mAdapter.setData(value);
+        }
     }
 }

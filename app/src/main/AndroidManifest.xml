@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".app.NiaBieApplication"
         android:allowBackup="true"
@@ -20,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.AddAccountActivity" />
-        <activity android:name=".activity.UserDetailsActivity"></activity>
+        <activity android:name=".activity.UserDetailsActivity" />
     </application>
 
 </manifest>

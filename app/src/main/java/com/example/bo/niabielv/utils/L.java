@@ -25,7 +25,7 @@ public final class L {
     // 是否需要打印bug，在App的debug版本里会打印日志，而在release则不会，使用Gradle自动管理
     private static final boolean isDebug = BuildConfig.DEBUG;
 
-    private static final String TAG = "SHANDIANHUA";
+    private static final String TAG = "NiaBieLV";
 
     // 下面四个是默认tag的函数
     public static void i(String msg) {

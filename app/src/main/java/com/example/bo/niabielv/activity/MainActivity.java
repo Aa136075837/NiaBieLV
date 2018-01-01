@@ -171,8 +171,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     private void flashItem() {
-        Load.createApi().searchAccount().subscribeOn(Schedulers.io()).
-                observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<AccountBean>() {
+        Observer<AccountBean> observer = Load.createApi().searchAccount().subscribeOn(Schedulers.io()).
+                observeOn(AndroidSchedulers.mainThread()).subscribeWith(new Observer<AccountBean>() {
             @Override
             public void onSubscribe(Disposable d) {
 
