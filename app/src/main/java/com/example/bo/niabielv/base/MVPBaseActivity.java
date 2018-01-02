@@ -2,6 +2,7 @@ package com.example.bo.niabielv.base;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import butterknife.ButterKnife;
 
 public abstract class MVPBaseActivity<P extends BasePresenter> extends BaseActivity {
     protected P mPresenter;
@@ -21,6 +22,7 @@ public abstract class MVPBaseActivity<P extends BasePresenter> extends BaseActiv
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(initLayout());
+        ButterKnife.bind (this);
         mPresenter = createPresenter();
         Bundle extras = getIntent().getExtras();
         initParams(extras);
